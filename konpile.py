@@ -123,7 +123,7 @@ def translate_fields(dataset: DataSet, translators: list[Path]):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Use an Excel file to fill a Jinja2 template.')
     parser.add_argument('template_file', type=Path, help='Jinja2 template file')
-    parser.add_argument('data_file', type=Path, help='Excel file with data')
+    parser.add_argument('data_file', type=Path, help='File with data')
     parser.add_argument('--translation', '-t', type=Path, nargs='+', help='Translation CSV files')
     args = parser.parse_args(sys.argv[1:])
     print('Unpacking data...')

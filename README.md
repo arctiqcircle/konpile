@@ -1,6 +1,11 @@
-# konpile - Konfiguration Compiler
+![](/static/img/konpile_128x128.png)
 
-Use an Excel file to fill a configuration template. This is useful for generating configuration files for network and security devices. The template is defined in a [Jinja2](https://jinja.palletsprojects.com/en/3.1.x/templates/) template file. Data is pulled from the Excel file sheet by sheet. The first row of each sheet is used as the column names. The column names are used as the variable names in the template. The data is then rendered into the template and the output is written to a file.
+# The Konfiguration Compiler
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://mit-license.org)
+[![Docker Hub](https://img.shields.io/badge/Docker-dyntek%2Fkonpile-blue)](https://hub.docker.com/r/dyntek/konpile)
+
+Use any data file, including Excel, to fill a configuration template. This is useful for generating configuration files for network and security devices. The template is defined in a [Jinja2](https://jinja.palletsprojects.com/en/3.1.x/templates/) template file. If Excel is used data is pulled from the Excel file sheet by sheet. The first row of each sheet is used as the column names. The column names are used as the variable names in the template. The data is then rendered into the template and the output is written to a file.
 
 _An example template file:_
 ```
@@ -22,9 +27,7 @@ docker pull dyntek/konpile
 docker run -d -p 8080:8080 dyntek/konpile
 ```
 
-In this example, the web service will be available at http://localhost:8080. The web service can be accessed from any web browser. The web service will allow you to upload an Excel file, write a template file, and optionally upload some translation files. 
-
-The translation files can be used to translate values from the Excel file to values used in the template. This is useful for translating values from one format to another without altering the original document. For example, translating a VLAN name to a VLAN ID.
+In this example, the web service will be available at http://localhost:8080. The web service can be accessed from any web browser. The web service will allow you to upload data files and write a template. The template can be rendered and the output will be downloaded. This method will not allow you to use translation files, but will allow you to use multiple data files and explore your variables before rendering.
 
 ## The Terminal
 
@@ -50,10 +53,12 @@ Use an Excel file to fill a Jinaj2 template.
 
 positional arguments:
   template_file         Jinja2 template file
-  data_file             Excel file with data
+  data_file             File with data
 
 options:
   -h, --help            show this help message and exit
   --translation TRANSLATION [TRANSLATION ...], -t TRANSLATION [TRANSLATION ...]
                         Translation CSV files
 ```
+
+The translation files can be used to translate values from the Excel file to values used in the template. This is useful for translating values from one format to another without altering the original document. For example, translating a VLAN name to a VLAN ID.
