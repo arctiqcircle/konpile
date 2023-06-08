@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/stylesheet.css') }}"
+    />
+    <link
+      rel="icon"
+      type="image/vnd.microsoft.icon"
+      href="{{ url_for('static', filename='img/konpile_32x32.png') }}"
+    />
+    <title>Konpile for Web</title>
+  </head>
+  <body>
+    <div class="page-container">
+      <div class="header-panel">
+        <img
+          src="{{ url_for('static', filename='img/konpile_128x128.png') }}"
+          alt="Konpile Logo"
+        />
+        <div class="header-text">
+          <h1>Konpile for Web</h1>
+          <h2>The Konfiguration Compiler</h2>
+          <p class="byline">
+            <a href="https://www.dyntek.com">Dyntek Services Inc.</a>
+          </p>
+        </div>
+        <div class="background-image"></div>
+      </div>
+      <div class="page-panel">
+        <div class="main-container">
+          <div class="home-panel">
+            <div class="code-container">
+              <p class="form-label">
+                Input your template, upload your data, and press "Compile"
+              </p>
+              <p class="form-info">
+                Your compiled template will be downloaded as a .txt file. files.
+              </p>
+              <div class="code-editor">
+                <textarea id="jinja2-textarea" spellcheck="false" aria-label="jinja2">
+{{ default }}</textarea
+                >
+              </div>
+            </div>
+            <div class="footer-container">
+              <div class="compile-panel">
+                <form id="compile-form" action="/compile" method="POST">
+                  <input type="submit" value="Compile" />
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="side-panel">
+            <div class="view-panel">
+              <p class="form-label">Config Variables</p>
+              <p class="form-info">Drag and Drop your Files here</p>
+              <div class="json-container">
+                <div class="json-viewer" id="upload-box">
+                  <pre>
+                    <code id="json-code" class="language-json"></code>
+                  </pre>
+                </div>
+              </div>
+            </div>
+            <div class="form-panel">
+              <p class="form-label">Or Upload a Data File</p>
+              <p class="form-info">(.xlsx, .csv, .json)</p>
+              <form
+              id="upload-form"
+              action="/process"
+              method="POST"
+              enctype="multipart/form-data"
+              >
+              <input
+              id="upload-file"
+              type="file"
+              name="file"
+              placeholder="Upload File"
+              dropzone="true"
+              />
+              <label for="upload-file" id="upload-label">
+                <span id="upload-text">Choose a File</span>
+                <span id="upload-icon"
+                ><img
+                src="{{ url_for('static', filename='img/icons8-download.png') }}"
+                alt="Download Icon"
+                /></span>
+              </label>
+              <input type="submit" value="Upload" />
+            </form>
+            <div id="error-container"></div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/dataDisplay.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/templateForm.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/uploadForm.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/compileForm.js') }}"></script>
+  </body>
+</html>

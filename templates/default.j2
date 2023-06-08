@@ -1,0 +1,9 @@
+{% for user in users %}
+    {% if user.active == "Yes" %}
+        {{ user.name }} <{{ user.email }}>
+    {% endif %}
+{% endfor %}
+{# The 'users' variable is a list of dictionaries containing user information. #}
+{# The 'active' key is used to filter the list. #}
+{# The 'name' and 'email' keys are used to populate the template. #}
+{# Read more at https://jinja.palletsprojects.com/en/2.10.x/templates/ #}

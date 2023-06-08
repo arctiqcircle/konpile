@@ -1,0 +1,294 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+:root {
+  --button-color: #f8f8f8;
+  --button-hover-color: #ff7b00;
+  --button-text: black;
+  --primary-color: #1e1e1e;
+  --secondary-color: #343434;
+}
+
+.page-container {
+  min-height: 100vh;
+  max-height: 100vh;
+  min-width: 100vw;
+  max-width: 100vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.header-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  max-height: 120px;
+  min-width: 100%;
+  max-width: 100%;
+  background-image: url("/static/img/banner.webp");
+  background-color: black;
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position: center center;
+  box-sizing: border-box;
+}
+
+.header-panel img {
+  width: 100px;
+  height: 100px;
+  margin-right: 20px;
+}
+
+.header-panel .header-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+}
+
+.header-panel h1 {
+  display: flex;
+  color: white;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.header-panel h2 {
+  display: flex;
+  color: white;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.header-panel .byline {
+  display: flex;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.header-panel .byline a {
+  color: aqua
+}
+
+.header-panel .byline a:hover {
+  color: orange
+}
+
+.page-panel {
+  flex: 1;
+  position: relative;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  border: black;
+  border-style: solid;
+  border-width: 3px;
+  background-color: var(--primary-color);
+  box-sizing: border-box;
+}
+
+.home-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.code-container {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.code-editor {
+  flex: 1;
+  position: relative; /* Position the JSON viewer absolutely within the flex container */
+}
+
+.code-editor textarea {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%; /* Set the height of the JSON viewer to 100% of the flex container */
+  width: 100%; /* Set the width of the JSON viewer to 100% of the flex container */
+  overflow-y: auto; /* Enable vertical scrolling when content exceeds the height */
+  box-sizing: border-box; /* Ensure the padding is included in the width */
+  resize: none;
+  background-color: #f8f8f8;
+  border: none;
+  padding: 10px;
+  font-family: monospace;
+}
+
+.footer-container {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+}
+
+.compile-panel {
+  flex: 1;
+}
+
+.side-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--secondary-color);
+  max-width: 33%;
+  margin: 0;
+}
+
+.side-panel .view-panel {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.side-panel .view-panel .json-container {
+  flex: 1;
+  position: relative;
+}
+
+.side-panel .view-panel .json-container .json-viewer {
+  background-color: #f8f8f8;
+  position: absolute; /* Position the JSON viewer absolutely within the flex container */
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%; /* Set the height of the JSON viewer to 100% of the flex container */
+  overflow-y: auto; /* Enable vertical scrolling when content exceeds the height */
+  border: 1px solid #ccc; /* Add a border around the JSON viewer */
+  padding: 8px; /* Add padding to the JSON viewer */
+  margin: 0; /* Remove the margin from the JSON viewer */
+}
+
+.json-viewer pre {
+  display: flex;
+  justify-content: flex-start;
+  margin: 0; /* Remove the margin from <pre> elements */
+}
+
+.json-viewer code {
+  margin: 0; /* Remove the margin from the JSON viewer */
+}
+
+.side-panel .form-panel {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: large;
+  color: white;
+}
+
+.form-info {
+  font-size: smaller;
+  font-style: italic;
+  margin-top: 0;
+  margin-bottom: 5px;
+  color: white;
+}
+
+.error-container {
+  flex: 1;
+}
+
+.error-message {
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  font-size: smaller;
+  padding: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  margin: 5px;
+}
+
+.error-message.show {
+  opacity: 1;
+}
+
+#upload-form {
+  display: flex;
+  flex-direction: row;
+}
+
+#upload-file {
+  display: none;
+}
+
+#upload-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 10px 20px;
+  background-color: var(--button-color);
+  color: var(--button-text);
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border: none;
+  border-radius: 5px;
+}
+
+#upload-text {
+  font-size: small;
+}
+
+#upload-label:hover {
+  background-color: var(--button-hover-color);
+}
+
+#upload-icon img {
+  height: 20px;
+  width: 20px;
+  margin-left: 10px;
+}
+
+input[type="submit"] {
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 10px 20px;
+  background-color: var(--button-color);
+  color: var(--button-text);
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: small;
+  border: none;
+  border-radius: 5px;
+}
+
+input[type="submit"]:hover {
+  background-color: var(--button-hover-color);
+}
+
+input[type="submit"]:active {
+  background-color: var(--button-hover-color);
+}
