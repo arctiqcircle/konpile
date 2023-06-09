@@ -43,6 +43,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.IMAGE_NAME }}:${{ matrix.tag }}-{{ matrix.os }}
-          labels: ${{ matrix.os }}
+          tags: ${{ env.IMAGE_NAME }}:${{ matrix.tag }}
+          platforms: ${{ matrix.os }}
 
