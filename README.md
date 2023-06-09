@@ -13,6 +13,7 @@ Konpile is a tool for generating configuration files from data files. This is us
   - [Konpile for Web](#konpile-for-web)
   - [The Docker Container](#the-docker-container)
   - [The Terminal](#the-terminal)
+    - [_Output of -h (help)_](#output-of--h-help)
 - [Overview of Schemas](#overview-of-schemas)
   - [Data Files](#data-files)
   - [Templates](#templates)
@@ -49,13 +50,13 @@ Install Python3 from [here](https://www.python.org/downloads/) and then install 
 pip install -r requirements.txt
 ```
 
-_Output of -h (help)_
+### _Output of -h (help)_
 
 ```bash
 python konpile.py -h
 usage: konpile.py [-h] [--translation TRANSLATION [TRANSLATION ...]] template_file data_file
 
-Use an Excel file to fill a Jinaj2 template.
+Use an Excel file to fill a Jinja2 template.
 
 positional arguments:
   template_file         Jinja2 template file
@@ -84,7 +85,8 @@ When Excel is used, data is pulled from the Excel file sheet by sheet. Like with
 Konpile uses the [Jinja2](https://jinja.palletsprojects.com/en/3.1.x/templates/) templating language. Jinja2 is a powerful industry standard templating language used in a variety of applications. Konpile uses Jinja2 to render a template file with the data provided from the data files. The template file is a plain text file with the `.j2` extension.
 
 _An example template file:_
-```
+
+```jinja2
 {% for line in sheet_name %}
 {{ line.column_name1 }}
 {% endfor %}

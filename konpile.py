@@ -58,7 +58,7 @@ def process_excel(datafile: Path) -> DataSet:
         headers = [std_str(cell.value) for cell in sheet[1]]
         dataset[std_str(sheet.title)] = [
             {
-                headers[i]: str(cell.value)
+                headers[i]: cell.value
                 for i, cell in enumerate(row)
             }
             for row in sheet.iter_rows(min_row=2)
@@ -137,7 +137,7 @@ def translate_fields(dataset: any, translators: list[Path]):
                 elif isinstance(obj, list):
                     return [translate(field_name, item) for item in obj]
                 else:
-                    return translation_table[obj] if field_name == target_field else obj
+                    return translation_table[str(obj)] if field_name == target_field else obj
             dataset = translate(None, dataset)
     return dataset
 
