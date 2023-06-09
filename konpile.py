@@ -14,10 +14,11 @@ import json
 DataSet = dict[str, list[dict]]
 
 
-def standardize(text: str):
-    if text is not None:
+def std_str(obj: any):
+    obj = str(obj)
+    if obj is not None:
         return (
-            text.lower()
+            obj.lower()
             .replace("-", "_")
             .replace(" ", "_")
             .replace(",", "_")
@@ -30,6 +31,7 @@ def process_file(datafile: Path) -> DataSet:
     Determine the type of the file and the appropriate processing function
     using a match statement, then return the processed data.
     """
+    # TODO: Implement file parsing injection for decoupling.
     match datafile.suffix.lower():
         case ".xlsx":
             return process_excel(datafile)
@@ -51,19 +53,16 @@ def process_excel(datafile: Path) -> DataSet:
     # Load sheets
     sheets = [workbook[sheet] for sheet in workbook.sheetnames]
     # Build dataset
-    dataset = {
-        # Convert comma separated values to lists
-        standardize(sheet.title): [
+    dataset = {}
+    for sheet in sheets:
+        headers = [std_str(cell.value) for cell in sheet[1]]
+        dataset[std_str(sheet.title)] = [
             {
-                standardize(cell.value): cell.value.split(",")
-                if cell.value is not None and "," in cell.value
-                else cell.value
-                for cell in row
+                headers[i]: str(cell.value)
+                for i, cell in enumerate(row)
             }
-            for row in sheet.rows
+            for row in sheet.iter_rows(min_row=2)
         ]
-        for sheet in sheets
-    }
     return dataset
 
 
@@ -75,7 +74,7 @@ def process_csv(datafile: Path) -> DataSet:
     # Load CSV file
     with open(datafile, "r") as f:
         reader = csv.DictReader(f)
-        dataset = {standardize(datafile.stem): [row for row in reader]}
+        dataset = {std_str(datafile.stem): [row for row in reader]}
     return dataset
 
 
@@ -87,7 +86,7 @@ def process_json(datafile: Path) -> DataSet:
     # Load JSON file
     with open(datafile, "r") as f:
         data = json.load(f)
-        dataset = {standardize(datafile.stem): data}
+        dataset = {std_str(datafile.stem): data}
     return dataset
 
 
@@ -113,24 +112,33 @@ def render_string(template_string: str, data: DataSet):
     return rendering
 
 
-def translate_fields(dataset: DataSet, translators: list[Path]):
+def translate_fields(dataset: any, translators: list[Path]):
     """
     Translate fields in the dataset using a list of CSV files.
     The CSV files must have two columns: original and translation.
     This allows us to restructure data without having to affect
-    the original Excel file.
+    the original files. If we find a field that matches the
+    name of the file (without the extension), we translate the
+    values in that field using the CSV file.
     """
     for translator in translators:
-        field_to_translate = translator.stem
         with open(translator, "r") as f:
+            target_field = std_str(translator.stem)
             reader = csv.DictReader(f)
             translation_table = {row["original"]: row["translation"] for row in reader}
-            # Dig through the dataset to find the field to translate
-            for sheet in dataset:
-                for entry in dataset[sheet]:
-                    for fieldname, value in entry.items():
-                        if fieldname == field_to_translate:
-                            entry[fieldname] = translation_table[str(value)]
+            def translate(field_name: str, obj: any):
+                # Recursively translate all applicable values in an object
+                # whenever the key matches the name of the translator file.
+                if isinstance(obj, dict):
+                    return {
+                        key: translate(key, value)
+                        for key, value in obj.items()
+                    }
+                elif isinstance(obj, list):
+                    return [translate(field_name, item) for item in obj]
+                else:
+                    return translation_table[obj] if field_name == target_field else obj
+            dataset = translate(None, dataset)
     return dataset
 
 
@@ -151,7 +159,7 @@ if __name__ == "__main__":
         data = translate_fields(data, args.translation)
     print("Rendering template...")
     rendering = render_file(args.template_file, data)
-    print(rendering)
+    # print(rendering)
     with open(
         f'{args.template_file.stem}_{datetime.now().strftime("%Y%m%d%H%M%S")}.txt', "w"
     ) as output_file:

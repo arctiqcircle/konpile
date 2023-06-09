@@ -1,5 +1,8 @@
+README.md
 Dockerfile
 compose.yaml
 .git
 .gitignore
-.*/
+.github/
+test/
+.DS_Store

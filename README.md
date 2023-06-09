@@ -30,10 +30,10 @@ Often times, you'd like the peace of mind from processing your configurations on
 
 ```bash
 docker pull dyntek/konpile
-docker run -d -p 8080:8080 dyntek/konpile
+docker run -d -p 80:80 dyntek/konpile
 ```
 
-In this example, the web service will be available at [http://localhost:8080](http://localhost:8080) as well as any other IP address that is available to your Docker host.
+In this example, the web service will be available at [http://localhost:80](http://localhost:80) as well as any other IP address that is available to your Docker host.
 
 ## The Terminal
 

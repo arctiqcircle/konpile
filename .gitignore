@@ -1,4 +1,7 @@
-.*/
 __pycache__
-.txt
+.vscode
+.pytest_cache
+.env
+
+**/secret/
 .DS_Store

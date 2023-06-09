@@ -3,14 +3,19 @@
 {% for intf in interfaces %}
 interface {{ intf.name }}
     description {{ intf.description }}
-    {% if len(intf.vlans) > 0 %}
+    {% if ',' in intf.vlans %}
+    {% if intf.vlans.split(',')|length > 0 %}
     switchport mode trunk
-    {% for vlan in intf.vlans %}
-    switchport trunk allowed vlan {{ vlan }}
+    {% for vlan in intf.vlans.split(',') %}
+    switchport trunk allowed vlan {{ vlan.strip() }}
     {% endfor %}
-    {% elif len(intf.vlans) == 1 %}
+    {% elif intf.vlans|length == 1 %}
     switchport mode access
     switchport access vlan {{ intf.vlans[0] }}
+    {% endif %}
+    {% else %}
+    switchport mode access
+    switchport access vlan {{ intf.vlans }}
     {% endif %}
     no shutdown
 {% endfor %}
