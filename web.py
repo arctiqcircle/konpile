@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 The Konpile web application provides a simple interface for uploading
-excel, csv, and json data files and compiling them into one or more
-configuration files.
+excel, csv, and json data files and compiling them into a
+configuration file.
 """
 
 import os
@@ -78,7 +78,8 @@ def start():
     Start the web server.
     """
     debugging = os.environ.get('DEBUG', True)
-    application.run(host='0.0.0.0', port=8080, debug=debugging)
+    port = os.environ.get('PORT', 8080)
+    application.run(host='0.0.0.0', port=port, debug=debugging)
 
 
 if __name__ == '__main__':
