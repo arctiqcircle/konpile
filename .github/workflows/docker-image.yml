@@ -9,18 +9,10 @@ on:
 
 env:
   IMAGE_NAME: dyntek/konpile
-  TAG: latest
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    
-    strategy:
-        matrix:
-          os: [linux/arm64, linux/amd64]
-          tag:
-            - 'latest'
-            - ${{ github.run_id }}
 
     steps:
       - name: Checkout code
@@ -28,6 +20,20 @@ jobs:
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@2b82ce82d56a2a04d2637cd93a637ae1b359c0a7
+        
+      - name: Docker Metadata action
+        id: meta
+        uses: docker/metadata-action@2c0bd771b40637d97bf205cbccdd294a32112176
+        with:
+          images: ${{ env.IMAGE_NAME }}
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@6a58db7e0d21ca03e6c44877909e80e45217eed2
@@ -43,6 +49,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.IMAGE_NAME }}:${{ matrix.tag }}
-          platforms: ${{ matrix.os }}
+          platforms: linux/amd64,linux/arm64
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
 
