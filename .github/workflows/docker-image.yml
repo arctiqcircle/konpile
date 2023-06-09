@@ -17,7 +17,7 @@ jobs:
     
     strategy:
         matrix:
-          os: [linux-arm64, linux-amd64]
+          os: [linux/arm64, linux/amd64]
           tag:
             - 'latest'
             - ${{ github.run_id }}
